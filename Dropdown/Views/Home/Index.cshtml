@@ -48,7 +48,9 @@
 
 @section Scripts
 {
-    <script type="text/javascript">
+   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+ <script type="text/javascript">
        
         $(document).ready(function () {
             var items = "<option value='0'>Select</option>";
@@ -129,8 +131,7 @@
             
         })*/
 
-    </script>
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+   </script>
+ 
 
 
