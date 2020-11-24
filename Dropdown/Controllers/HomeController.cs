@@ -23,24 +23,29 @@ namespace Dropdown.Controllers
             ViewBag.State= new SelectList(_context.State.ToList() "Id", "Name");
             return View();
         } 
-
+       public Task<IActionResult> GetData()
+        {         
+          List<Employee> empList = await ( from a in _context.Employee                            
+            select new EmpView
+              {
+                  Name = a.FullName,
+                  Address = a.Address,
+                  Designation = a.Position,
+                  Email =a.Email,
+                  CityName=a.CityName,
+                  StateName=a.StateName
+              }).ToListAsync();
+          
+          return Json(new { data = empList }, JsonRequestBehavior.AllowGet);
+            
+        }
 
        public Task<IActionResult> GetAll(){
 
-        return View(await ( from a in _context.Employee                            
-                            select new EmpView
-                              {
-                                  Name = a.FullName,
-                                  Address = a.Address,
-                                  Designation = a.Position,
-                                  Email =a.Email,
-                                  CityName=a.CityName,
-                                  StateName=a.StateName
-                              }).ToListAsync()
-                   );
+         return View();
                       
-            }
-       }
+      }
+    }
         
-   }
+  }
 

@@ -4,59 +4,77 @@
     ViewData["Title"] = "Index";
 }
 
-<h4>Employee Register</h4>
+<h4>Employees</h4>
 <hr />
 
-
+<div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-8">
+                <div class="text-muted">
+                     Search
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <select class="form-control" id="select-column">
+                            <option value="0">ID</option>
+                            <option selected value="1">Name</option>
+                            <option value="2">City</option>
+                            <option value="3">State</option>
+                        </select>
+                    </div>
+                    <div class="col-md-7">
+                        <input class="form-control" type="text" id="search-by-column" placeholder="Search By Column">
+                    </div>
+                </div>
+            </div>
+</div>
 <table id="myTable" class="table table-hover">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Designation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CityName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StateName)
-            </th>
-            
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Age</th>
+            <th>Salary</th>
+            <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Designation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CityName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StateNameName)
-            </td>
-            
-        </tr>
-}
-    </tbody>
 </table>
 
 @section Scripts{
     <script>
-            $(document).ready(function () {
-                $('#myTable').DataTable();
+         var table ;
+         
+         $(document).ready(function () {
+            
+            table=$("#myTable").DataTable({
+                "ajax": {
+                    "url": "/Home/GetData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "Name" },
+                    { "data": "Designation" },
+                    { "data": "Email" },
+                    { "data": "CityName" },
+                    { "data": "StateName" }                    
+                
             });
+
+
+            function searchByColumn(table) {
+                var defaultSearch = 1 //Name
+                $(document).on('change', '#select-column', function() {
+                    defaultSearch = this.value;
+                });
+                $(document).on('change', '#search-by-column', function() {
+                    table.search('').columns().search('').draw();
+                    table.column(defaultSearch).search(this.value).draw();
+                });
+            }
+            
+            searchByColumn(table);
+        });
     </script>
 }
