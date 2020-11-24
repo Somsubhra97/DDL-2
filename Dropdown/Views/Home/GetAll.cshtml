@@ -10,23 +10,29 @@
 <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-8">
-                <div class="text-muted">
-                     Search
-                </div>
+                <button type="button" id="btn"></button>
                 <div class="row">
-                    <div class="col-md-5">
-                        <select class="form-control" id="select-column">                            
-                            <option selected value="1">Name</option>
-                            <option value="2">City</option>
-                            <option value="3">State</option>
-                        </select>
+                    <div class="col-md-3">
+                        <input class="form-control" type="text" id="search-by-column" placeholder="Search By Name">
                     </div>
-                    <div class="col-md-7">
-                        <input class="form-control" type="text" id="search-by-column" placeholder="Search By Column">
+
+                    <div class="col-md-3">
+                        <select asp-items="@ViewBag.State" id="stateList">
+                            <option>Select</option>
+                         </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <select id="citylist"></select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <input class="form-control" type="text" id="search-by-name" placeholder="Search By Name">
                     </div>
                 </div>
-            </div>
+            </div>            
 </div>
+
 <table id="myTable" class="table table-hover">
     <thead>
         <tr>
@@ -42,9 +48,28 @@
 
 @section Scripts{
     <script>
+
          var table ;
 
          $(document).ready(function () {
+
+             var items = "<option value='0'>Select</option>";
+                $("#citylist").html(items);
+            });
+            
+            $("#stateList").change(function () {
+                var stateId = $("#stateList").val();
+                var url = "http://localhost:5000/api/getcities";
+
+                $.getJSON(url, { StateId: stateId }, function (data) {  
+                    var item = "";
+                    $("#citylist").empty();
+                    $.each(data, function (i, city) {
+                        item += '<option value="' + city.value + '">' + city.text + '</option>'
+                    });
+                    $("#citylist").html(item);
+                });
+
             
             table=$("#myTable").DataTable({
                 "ajax": {
@@ -62,17 +87,23 @@
             });
 
 
-            function searchByColumn(table) {
-                var defaultSearch = 1 //Name
-                $(document).on('change', '#select-column', function() {
-                    defaultSearch = this.value;
+            function searchByColumn(table) {                
+                $(document).on('change', '#search-by-name',function(){
+                   table.search('').columns().search('').draw();
+                    table.column(0).search(this.value).draw();
                 });
-                $(document).on('change', '#search-by-column', function() {
+                $(document).on('change', '#stateList', function() {
                     table.search('').columns().search('').draw();
-                    table.column(defaultSearch).search(this.value).draw();
+                    table.column(4).search(this.value).draw();
+                });
+                $(document).on('change', '#cityList', function() {
+                    table.search('').columns().search('').draw();
+                    table.column(3).search(this.value).draw();
                 });
             }
-            
+            $("#btn").click(()=>{
+                searchByColumn(table);
+            })
             searchByColumn(table);
         });
     </script>

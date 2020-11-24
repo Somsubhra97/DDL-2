@@ -35,13 +35,13 @@ namespace Dropdown.Controllers
                   CityName=a.CityName,
                   StateName=a.StateName
               }).ToListAsync();
-          
+
           return Json(new { data = empList }, JsonRequestBehavior.AllowGet);
             
         }
 
        public Task<IActionResult> GetAll(){
-
+         ViewBag.State= new SelectList(_context.State.ToList() "Id", "Name");
          return View();
                       
       }

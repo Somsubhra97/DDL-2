@@ -2,49 +2,55 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<div class="form-group">
-    <label asp-for="FullName" class="control-label"></label>
-    <input asp-for="FullName" class="form-control" />
-    <span asp-validation-for="FullName" class="text-danger"></span>
-</div>
+<div class="row">
+  <div class="col-md-6">
+    <form asp-action="AddOrEdit">
+        <div class="form-group">
+            <label asp-for="FullName" class="control-label"></label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
 
-<div class="form-group">
-    <label asp-for="Email" class="control-label"></label>
-    <input asp-for="Email" class="form-control" />
-    <span asp-validation-for="Email" class="text-danger"></span>
-</div>
+        <div class="form-group">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
 
-<div class="form-group">
-    <label asp-for="Position" class="control-label"></label>
-    <input asp-for="Position" class="form-control" />
-    <span asp-validation-for="Position" class="text-danger"></span>
-</div>
+        <div class="form-group">
+            <label asp-for="Position" class="control-label"></label>
+            <input asp-for="Position" class="form-control" />
+            <span asp-validation-for="Position" class="text-danger"></span>
+        </div>
 
-<div class="form-group">
-    <label asp-for="Address" class="control-label"></label>
-    <input asp-for="Address" class="form-control" />
-    <span asp-validation-for="Address" class="text-danger"></span>
-</div>
+        <div class="form-group">
+            <label asp-for="Address" class="control-label"></label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
 
 
-<div class="form-group">
-    <select asp-items="@ViewBag.State" id="stateList">
-        <option>Select</option>
-     </select>
-</div>
+        <div class="form-group">
+            <select asp-items="@ViewBag.State" id="stateList">
+                <option>Select</option>
+             </select>
+        </div>
 
-<div class="form-group">
-    <select id="citylist"></select>
-</div>
+        <div class="form-group">
+            <select id="citylist"></select>
+        </div>
 
-<div class="form-row">
-   <div class="form-group col-md-6">
-      <input type="submit" onsubmit="Create()" value="Submit" class="btn btn-primary btn-block" />
+        <div class="form-row">
+           <div class="form-group col-md-6">
+              <input type="submit" onsubmit="Create()" value="Submit" class="btn btn-primary btn-block" />
+           </div>
+          <div  class="form-group col-md-6">
+            <a asp-action="GetAll"  class="btn btn-secondary btn-block"><i class="fa  fa-table"></i> Back to List</a>
+          </div>
+        </div>
+     </form>
    </div>
-  <div  class="form-group col-md-6">
-    <a asp-action="GetAll"  class="btn btn-secondary btn-block"><i class="fa  fa-table"></i> Back to List</a>
-  </div>
-</div>
+</div> 
 
 @section Scripts
 {
