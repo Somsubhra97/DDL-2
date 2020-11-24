@@ -50,7 +50,7 @@
     <script>
 
          var table ;
-
+         var input ;
          $(document).ready(function () {
 
              var items = "<option value='0'>Select</option>";
@@ -86,12 +86,15 @@
                 
             });
 
-
-            function searchByColumn(table) {                
-                $(document).on('change', '#search-by-name',function(){
-                   table.search('').columns().search('').draw();
-                    table.column(0).search(this.value).draw();
-                });
+            $( "#btn" ).click(() =>{
+                table.column(0).search(input).draw();
+            });
+            $( "#search-by-name" ).keyup(function() {
+                    input=this.value;
+            });  
+              
+            function searchByColumn(table) {              
+                
                 $(document).on('change', '#stateList', function() {
                     table.search('').columns().search('').draw();
                     table.column(4).search(this.value).draw();
@@ -100,6 +103,7 @@
                     table.search('').columns().search('').draw();
                     table.column(3).search(this.value).draw();
                 });
+
             }            
             searchByColumn(table);
         });
